@@ -16,6 +16,8 @@ Or you can copypaste any function that you need
    ## Supported operators
    ### Creating
    *[Timer](http://reactivex.io/documentation/operators/timer.html)*
+   
+   *[Interval](http://reactivex.io/documentation/operators/interval.html)*
 
    *[Merge](http://reactivex.io/documentation/operators/merge.html)*
 

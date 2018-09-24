@@ -11,7 +11,7 @@ fun <E> ReceiveChannel<E>.debounce(
         time: Long,
         timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
         context: CoroutineContext = Dispatchers.Unconfined
-): ReceiveChannel<E> = produce(context) {
+): ReceiveChannel<E> = GlobalScope.produce(context) {
     var job: Job? = null
     consumeEach {
         job?.cancel()

@@ -1,5 +1,6 @@
 package com.regin.better.coroutines
 
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.produce
 import kotlinx.coroutines.experimental.channels.toList
@@ -12,14 +13,14 @@ class CombiningTest {
 
     @Test
     fun mergeSuccess() {
-        val channel1: ReceiveChannel<Int> = produce {
+        val channel1: ReceiveChannel<Int> = GlobalScope.produce {
             (0..2).forEach {
                 send(it)
                 delay(TimeUnit.MILLISECONDS.toMillis(100))
             }
         }
 
-        val channel2: ReceiveChannel<Int> = produce {
+        val channel2: ReceiveChannel<Int> = GlobalScope.produce {
             (3..4).forEach {
                 send(it)
                 delay(TimeUnit.MILLISECONDS.toMillis(100))

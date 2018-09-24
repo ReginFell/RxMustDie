@@ -1,5 +1,6 @@
 package com.regin.better.coroutines
 
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.*
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.runBlocking
@@ -10,7 +11,7 @@ class FilteringTest {
 
     @Test
     fun debounce() {
-        val channel: ReceiveChannel<Int> = produce {
+        val channel: ReceiveChannel<Int> = GlobalScope.produce {
             (0..15).forEach {
                 send(it)
                 delay(TimeUnit.MILLISECONDS.toMillis(100))
@@ -30,7 +31,7 @@ class FilteringTest {
 
     @Test
     fun distinctUntilChanged() {
-        val channel: ReceiveChannel<Int> = produce {
+        val channel: ReceiveChannel<Int> = GlobalScope.produce {
             listOf(1, 1, 0, 0, 1, 2, 2, 0).forEach {
                 send(it)
             }

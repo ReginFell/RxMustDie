@@ -5,12 +5,11 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.consumeEach
 import kotlinx.coroutines.experimental.channels.produce
 import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.coroutineContext
 
 fun <E> ReceiveChannel<E>.merge(
         vararg channels: ReceiveChannel<E>,
-        context: CoroutineContext = Unconfined
-): ReceiveChannel<E> = produce(context, onCompletion = { error -> channels.all { it.cancel(error) } }) {
+        context: CoroutineContext = Dispatchers.Unconfined
+): ReceiveChannel<E> = GlobalScope.produce(context, onCompletion = { error -> channels.all { it.cancel(error) } }) {
     val job = coroutineContext[Job]!!
 
     val context = coroutineContext + CoroutineExceptionHandler { _, throwable ->

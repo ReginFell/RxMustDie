@@ -10,7 +10,7 @@ import kotlin.coroutines.experimental.CoroutineContext
 fun <E> ReceiveChannel<E>.debounce(
         time: Long,
         timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
-        context: CoroutineContext = Unconfined
+        context: CoroutineContext = Dispatchers.Unconfined
 ): ReceiveChannel<E> = produce(context) {
     var job: Job? = null
     consumeEach {
@@ -24,7 +24,7 @@ fun <E> ReceiveChannel<E>.debounce(
 
 }
 
-fun <E> ReceiveChannel<E>.distinctUntilChanged(): ReceiveChannel<E> = produce(Unconfined) {
+fun <E> ReceiveChannel<E>.distinctUntilChanged(): ReceiveChannel<E> = GlobalScope.produce(Dispatchers.Unconfined) {
 
     var lastItem: E? = null
 

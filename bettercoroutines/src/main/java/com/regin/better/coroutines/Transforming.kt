@@ -10,8 +10,8 @@ import kotlin.coroutines.experimental.CoroutineContext
 
 fun <E> ReceiveChannel<E>.buffer(
         count: Int,
-        context: CoroutineContext = Unconfined
-): ReceiveChannel<List<E>> = produce(context) {
+        context: CoroutineContext = Dispatchers.Unconfined
+): ReceiveChannel<List<E>> = GlobalScope.produce(context) {
 
     val items: ArrayList<E> = ArrayList(count)
 
@@ -27,8 +27,8 @@ fun <E> ReceiveChannel<E>.buffer(
 fun <E> ReceiveChannel<E>.buffer(
         time: Long,
         timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
-        context: CoroutineContext = Unconfined
-): ReceiveChannel<List<E>> = produce(context) {
+        context: CoroutineContext = Dispatchers.Unconfined
+): ReceiveChannel<List<E>> = GlobalScope.produce(context) {
 
     val items: ArrayList<E> = ArrayList()
     var nextTime = 0L

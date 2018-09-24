@@ -1,5 +1,6 @@
 package com.regin.better.coroutines
 
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.produce
 import kotlinx.coroutines.experimental.channels.toList
@@ -12,7 +13,7 @@ class TransformingTest {
 
     @Test
     fun bufferWithCount() {
-        val channel: ReceiveChannel<Int> = produce {
+        val channel: ReceiveChannel<Int> = GlobalScope.produce {
             (0..21).forEach {
                 send(it)
                 delay(TimeUnit.MILLISECONDS.toMillis(100))
@@ -31,7 +32,7 @@ class TransformingTest {
 
     @Test
     fun bufferWithTime() {
-        val channel: ReceiveChannel<Int> = produce {
+        val channel: ReceiveChannel<Int> = GlobalScope.produce {
             (0..10).forEach {
                 delay(TimeUnit.MILLISECONDS.toMillis(150))
                 send(it)

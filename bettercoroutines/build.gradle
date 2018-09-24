@@ -17,7 +17,7 @@ publish {
     userOrg = 'reginfell'
     groupId = 'com.regin'
     artifactId = 'better.coroutines'
-    publishVersion = "0.0.1"
+    publishVersion = "0.0.2"
     desc = 'The collection set of inspired by RxJava functions'
     licences = ['Apache-2.0']
     uploadName = 'RxMustDie'

@@ -8,7 +8,7 @@
    # Instalation
 ```groovy
 dependencies {
-    implementation "com.regin.better.coroutines:0.0.1"
+    implementation "com.regin.better.coroutines:0.0.2"
 }
 ```
 Or you can copypaste any function that you need 

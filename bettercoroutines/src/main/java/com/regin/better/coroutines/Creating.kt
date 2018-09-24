@@ -8,33 +8,42 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
 import kotlin.coroutines.experimental.coroutineContext
 
-class Channels {
+fun <E> merge(
+        vararg channels: ReceiveChannel<E>,
+        context: CoroutineContext = Unconfined,
+        block: suspend CoroutineScope.(E) -> Unit
+): ReceiveChannel<E> = produce(context, onCompletion = { error -> channels.all { it.cancel(error) } }) {
+    val job = coroutineContext[Job]!!
 
-    companion object {
-        fun <E> merge(
-                vararg channels: ReceiveChannel<E>,
-                context: CoroutineContext = Unconfined
-        ): ReceiveChannel<E> = produce(context, onCompletion = { error -> channels.all { it.cancel(error) } }) {
-            val job = coroutineContext[Job]!!
+    val context = coroutineContext + CoroutineExceptionHandler { _, throwable ->
+        job.cancel(throwable)
+    }
 
-            val context = coroutineContext + CoroutineExceptionHandler { _, throwable ->
-                job.cancel(throwable)
-            }
-
-            channels.forEach { channel ->
-                launch(context) {
-                    channel.consumeEach { value -> send(value) }
-                }
-            }
+    channels.forEach { channel ->
+        launch(context) {
+            channel.consumeEach { value -> block(value) }
         }
+    }
+}
 
-        fun timer(
-                time: Long,
-                timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
-                context: CoroutineContext = DefaultDispatcher
-        ): ReceiveChannel<Long> = produce(context) {
-            delay(timeUnit.toMillis(time))
-            send(0L)
-        }
+fun timer(
+        time: Long,
+        timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
+        context: CoroutineContext = DefaultDispatcher,
+        block: suspend CoroutineScope.() -> Unit
+): ReceiveChannel<Long> = produce(context) {
+    delay(timeUnit.toMillis(time))
+    block()
+}
+
+fun interval(
+        time: Long,
+        timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
+        context: CoroutineContext = DefaultDispatcher,
+        block: suspend CoroutineScope.() -> Unit
+): ReceiveChannel<Long> = produce(context) {
+    while (isActive) {
+        delay(timeUnit.toMillis(time))
+        block()
     }
 }

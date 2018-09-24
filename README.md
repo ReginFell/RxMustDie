@@ -1,9 +1,23 @@
+   [![Download](https://api.bintray.com/packages/reginfell/maven/RxMustDie/images/download.svg) ](https://bintray.com/reginfell/maven/RxMustDie/_latestVersion)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/ReginFell/RxMustDie/blob/master/LICENSE)
+
+   
    # RxMustDie
    The collection set of inspired by RxJava functions for Kotlin Coroutines
+   
+   # Instalation
+```groovy
+dependencies {
+    implementation "com.regin.better.coroutines:0.0.1"
+}
+```
+Or you can copypaste any function that you need 
 
    ## Supported operators
    ### Creating
    *[Timer](http://reactivex.io/documentation/operators/timer.html)*
+   
+   *[Interval](http://reactivex.io/documentation/operators/interval.html)*
 
    *[Merge](http://reactivex.io/documentation/operators/merge.html)*
 
